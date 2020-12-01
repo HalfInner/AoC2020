@@ -1,0 +1,1 @@
+add_executable(aoc_01 main.cc)
