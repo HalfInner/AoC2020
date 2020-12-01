@@ -21,15 +21,14 @@ auto crack_v1(T report) {
 template <typename T>
 auto crack_v2(T report) {
   int result = -1;
-  for (auto &&val : report) {
+  for (auto it = cbegin(report); it != cend(report); ++it) {
     constexpr int xmassYear = 2020;
-    const int supplement = xmassYear - val;
-
-    for (auto &&nestedVal : report) {
-      const int nestedSupplement = supplement - nestedVal;
-      auto it = report.find(nestedSupplement);
-      if (it != cend(report)) {
-        return nestedVal * val * *it;
+    const int supplement = xmassYear - *it;
+    for (auto jt = it; jt != cend(report); ++jt) {
+      const int nestedSupplement = supplement - *jt;
+      auto itFind = report.find(nestedSupplement);
+      if (itFind != cend(report)) {
+        return *it * *jt * *itFind;
       }
     }
   }

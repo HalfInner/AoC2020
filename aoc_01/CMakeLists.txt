@@ -1,1 +1,2 @@
-add_executable(aoc_01 main.cc)
+set(TASK_NAME aoc_01)
+add_executable(${TASK_NAME} ${TASK_NAME}.cc)
