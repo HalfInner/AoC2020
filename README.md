@@ -7,7 +7,7 @@ Build includes all solutions.
 ### Locally
 ```sh
 mkdir build && cd build
-cmake .. && make
+cmake .. && make -j 8
 aoc_XX/aoc_XX ../aoc_XX/input.txt # where XX is a number of puzzle
 ```
 
