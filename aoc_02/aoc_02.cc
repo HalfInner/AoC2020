@@ -14,7 +14,7 @@ struct Policy {
 };
 
 template <typename Container>
-auto crack_v1(Container policies) {
+auto crack_v1(Container &&policies) {
   return std::accumulate(cbegin(policies), cend(policies), 0, [](auto &&sum, auto &&el) {
     auto res = std::count(cbegin(el.password), cend(el.password), el.character);
     return (res >= el.min && res <= el.max) ? sum + 1 : sum;
@@ -22,7 +22,7 @@ auto crack_v1(Container policies) {
 }
 
 template <typename Container>
-auto crack_v2(Container policies) {
+auto crack_v2(Container &&policies) {
   return std::accumulate(cbegin(policies), cend(policies), 0, [](auto &&sum, auto &&el) {
     auto res = (el.password.at(el.min - 1) == el.character) +
                (el.password.at(el.max - 1) == el.character);

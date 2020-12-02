@@ -5,7 +5,7 @@
 #include <unordered_set>
 
 template <typename T>
-auto crack_v1(T report) {
+auto crack_v1(T &&report) {
   int result = -1;
   for (auto &&val : report) {
     constexpr int xmassYear = 2020;
@@ -19,7 +19,7 @@ auto crack_v1(T report) {
 }
 
 template <typename T>
-auto crack_v2(T report) {
+auto crack_v2(T &&report) {
   int result = -1;
   for (auto it = cbegin(report); it != cend(report); ++it) {
     constexpr int xmassYear = 2020;
