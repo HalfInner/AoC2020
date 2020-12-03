@@ -12,10 +12,10 @@ enum class ForestEntity : char { tree = '#', grass = '.' };
 
 template <typename Container>
 auto traverse(Container &&forestMap, const std::pair<size_t, size_t> &slope) {
-  auto sulutions = 0;
+  auto solutions = 0;
   for (size_t y = 0, x = 0; y < forestMap.size(); y += slope.second) {
     if (forestMap.at(y).at(x) == ForestEntity::tree) {
-      ++sulutions;
+      ++solutions;
     }
     x += slope.first;
     // Modulo equivalent
@@ -23,7 +23,7 @@ auto traverse(Container &&forestMap, const std::pair<size_t, size_t> &slope) {
       x -= forestMap.at(y).size();
     }
   }
-  return sulutions;
+  return solutions;
 }
 
 template <typename Container>
@@ -41,7 +41,7 @@ auto crack_v2(Container &&forestMap) {
   std::transform(cbegin(slopes), cend(slopes), std::back_inserter(answers),
                  [&forestMap](auto &&slope) { return traverse(forestMap, slope); });
 
-  return std::accumulate(cbegin(answers), cend(answers), 1, std::multiplies<uint64_t>());
+  return std::accumulate(cbegin(answers), cend(answers), 1llu, std::multiplies<uint64_t>());
 }
 
 auto parseMap(std::fstream &&istream) {
