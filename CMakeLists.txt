@@ -11,6 +11,7 @@ else()
 endif()
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${PROJECT_FLAGS})
 
+include_directories(include)
 file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} aoc_*)
 foreach(child ${children})
   message(Found\ AoC:\ ${child})

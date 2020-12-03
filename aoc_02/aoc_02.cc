@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "HolidayBag.hh"
+
 struct Policy {
   int min = -1;
   int max = -1;
@@ -15,6 +17,7 @@ struct Policy {
 
 template <typename Container>
 auto crack_v1(Container &&policies) {
+  auto t = HolidayBag::SportTimer("p1", "us", 1);
   return std::accumulate(cbegin(policies), cend(policies), 0, [](auto &&sum, auto &&el) {
     auto res = std::count(cbegin(el.password), cend(el.password), el.character);
     return (res >= el.min && res <= el.max) ? sum + 1 : sum;
@@ -23,6 +26,7 @@ auto crack_v1(Container &&policies) {
 
 template <typename Container>
 auto crack_v2(Container &&policies) {
+  auto t = HolidayBag::SportTimer("p2", "us", 1);
   return std::accumulate(cbegin(policies), cend(policies), 0, [](auto &&sum, auto &&el) {
     auto res = (el.password.at(el.min - 1) == el.character) +
                (el.password.at(el.max - 1) == el.character);
@@ -31,6 +35,7 @@ auto crack_v2(Container &&policies) {
 }
 
 auto parsePuzzle(std::fstream &&istream) {
+  auto t = HolidayBag::SportTimer("Parsing", "us");
   std::vector<Policy> input{};
 
   char buf[51];
@@ -46,6 +51,8 @@ auto parsePuzzle(std::fstream &&istream) {
 }
 
 int main(int argc, char *argv[]) {
+  auto t = HolidayBag::SportTimer("Total", "us");
+
   std::cout << std::string(79, '-') << '\n';
   std::cout << "AoC2020_02 v1 & v2\n";
   if (argc != 2) {
@@ -62,4 +69,7 @@ int main(int argc, char *argv[]) {
   auto policies = parsePuzzle(std::move(puzzle));
   std::cout << "Answer v1: " << crack_v1(policies) << '\n';
   std::cout << "Answer v2: " << crack_v2(policies) << '\n';
+
+  t.stop();
+  std::cout << t.getInterSummaryBag().unknit();
 }

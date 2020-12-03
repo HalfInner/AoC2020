@@ -4,8 +4,11 @@
 #include <string>
 #include <unordered_set>
 
+#include "HolidayBag.hh"
+
 template <typename T>
 auto crack_v1(T &&report) {
+  auto t = HolidayBag::SportTimer("p1", "us");
   int result = -1;
   for (auto &&val : report) {
     constexpr int xmassYear = 2020;
@@ -20,6 +23,7 @@ auto crack_v1(T &&report) {
 
 template <typename T>
 auto crack_v2(T &&report) {
+  auto t = HolidayBag::SportTimer("p2", "us");
   int result = -1;
   for (auto it = cbegin(report); it != cend(report); ++it) {
     constexpr int xmassYear = 2020;
@@ -36,6 +40,7 @@ auto crack_v2(T &&report) {
 }
 
 auto parsePuzzle(std::fstream &&istream) {
+  auto t = HolidayBag::SportTimer("Parsing", "us");
   std::unordered_set<int> input{};
   for (std::string s{}; std::getline(istream, s, '\n');) {
     input.emplace(std::stoi(s));
@@ -45,6 +50,7 @@ auto parsePuzzle(std::fstream &&istream) {
 }
 
 int main(int argc, char *argv[]) {
+  auto t = HolidayBag::SportTimer("Total", "us");
   std::cout << std::string(79, '-') << '\n';
   std::cout << "AoC2020_01 v1 & v2\n";
   if (argc != 2) {
@@ -61,4 +67,7 @@ int main(int argc, char *argv[]) {
   auto expense_report = parsePuzzle(std::move(puzzle));
   std::cout << "Answer v1: " << crack_v1(expense_report) << '\n';
   std::cout << "Answer v2: " << crack_v2(expense_report) << '\n';
+
+  t.stop();
+  std::cout << t.getInterSummaryBag().unknit();
 }
