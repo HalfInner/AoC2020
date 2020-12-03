@@ -17,7 +17,11 @@ auto traverse(Container &&forestMap, const std::pair<size_t, size_t> &slope) {
     if (forestMap.at(y).at(x) == ForestEntity::tree) {
       ++sulutions;
     }
-    x = (x + slope.first) % forestMap.at(y).size();
+    x += slope.first;
+    // Modulo equivalent
+    if (x >= forestMap.at(y).size()) {
+      x -= forestMap.at(y).size();
+    }
   }
   return sulutions;
 }
