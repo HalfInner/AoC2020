@@ -53,9 +53,8 @@ auto parseMap(std::fstream &&istream) {
       s.pop_back();
     }
     std::vector<ForestEntity> forestLine;
-    std::transform(cbegin(s), cend(s), std::back_inserter(forestLine), [](auto &&c) {
-      return (c == '#') ? ForestEntity::tree : ForestEntity::grass;
-    });
+    std::transform(cbegin(s), cend(s), std::back_inserter(forestLine),
+                   [](auto &&c) { return (c == '#') ? ForestEntity::tree : ForestEntity::grass; });
 
     forestMap.emplace_back(forestLine);
   }
