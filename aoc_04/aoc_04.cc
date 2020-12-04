@@ -102,8 +102,9 @@ auto crack_v2(Container &&passports) {
   auto t = HolidayBag::SportTimer("p2", "us", 1);
   return std::accumulate(cbegin(passports), cend(passports), 0u, [](auto &&sum, auto &&passport) {
     return (hasValidFieldNumber(passport) && hasValidFieldByr(passport) &&
-            hasValidFieldIyr(passport) && hasValidFieldHgt(passport) &&
-            hasValidFieldHcl(passport) && hasValidFieldEcl(passport) && hasValidFieldPid(passport))
+            hasValidFieldEyr(passport) && hasValidFieldIyr(passport) &&
+            hasValidFieldHgt(passport) && hasValidFieldHcl(passport) &&
+            hasValidFieldEcl(passport) && hasValidFieldPid(passport))
                ? sum + 1
                : sum;
   });
