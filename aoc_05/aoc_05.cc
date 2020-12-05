@@ -11,7 +11,6 @@
 #include <unordered_set>
 #include <vector>
 
-
 #include "HolidayBag.hh"
 
 struct Seat {
@@ -19,32 +18,20 @@ struct Seat {
   int column{-1};
   int64_t seatId{-1};
 
-  Seat(int row, int column) : row(row), column(column) { computeSeatId(); }
+  Seat(int row, int column) : row(row), column(column) { seatId = row * 8 + column; }
 
   explicit Seat(std::string_view boarding) {
-    size_t idx = 0;
-    row = 0u;
-    for (int i = 6; i >= 0; --i, ++idx) {
-      if (boarding.at(idx) == 'B') {
-        const auto pow = std::exp2(i);
-        row += static_cast<int>(pow);
-      }
+    std::bitset<10> seatencoded;
+    seatencoded.reset();
+    for (size_t i = 0; i < 10; ++i) {
+      seatencoded[9 - i] = boarding.at(i) == 'B' || boarding.at(i) == 'R';
     }
-
-    column = 0u;
-    for (int i = 2; i >= 0; --i, ++idx) {
-      if (boarding.at(idx) == 'R') {
-        const auto pow = std::exp2(i);
-        column += static_cast<int>(pow);
-      }
-    }
-
-    computeSeatId();
+    seatId = seatencoded.to_ulong();
+    row = seatId >> 3;
+    column = seatId & 0x7;
   }
 
   bool operator<(const Seat &s) const { return seatId < s.seatId; }
-
-  void computeSeatId() { seatId = row * 8 + column; }
 };
 
 template <typename Container>
