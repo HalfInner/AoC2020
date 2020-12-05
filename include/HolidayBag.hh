@@ -16,7 +16,7 @@ class SummaryBag {
   struct Summary {
     std::string jobName;
     std::string unit;
-    long long int duration;
+    int64_t duration;
   };
   std::deque<SummaryBag::Summary> summaries;
 
@@ -41,18 +41,18 @@ class SummaryBag {
 // At the moment Bug is shared only between same Unit parameter.
 template <typename Unit = std::chrono::microseconds>
 class SportTimer {
+  static SummaryBag globalSummaryBag;
+
   std::string _name;
   std::string _unitName;
   int _factor;
+  bool _isStopped;
 
 #if _WIN32
   LARGE_INTEGER _start_win32, _stop_win32, _frequency_win32;
 #else
   std::chrono::time_point<std::chrono::high_resolution_clock> _start, _stop;
 #endif
-
-  bool _isStopped;
-  static SummaryBag globalSummaryBag;
 
  public:
   explicit SportTimer(std::string jobName, std::string unitName = "", int factor = 1)
