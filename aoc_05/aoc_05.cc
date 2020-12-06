@@ -48,7 +48,7 @@ auto crack_v1(Container &&boardingPasses) {
 
 template <typename Container>
 auto crack_v2(Container &&boardingPasses) {
-  auto t = HolidayBag::SportTimer("p1", "us", 1);
+  auto t = HolidayBag::SportTimer("p2", "us", 1);
 
   std::set<Seat> seats{};
   std::transform(cbegin(boardingPasses), cend(boardingPasses), std::inserter(seats, cend(seats)),

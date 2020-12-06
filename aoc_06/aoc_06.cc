@@ -29,7 +29,7 @@ auto crack_v1(Container &&customDeclarations) {
 
 template <typename Container>
 auto crack_v2(Container &&customDeclarations) {
-    auto t = HolidayBag::SportTimer("p1", "us", 1);
+    auto t = HolidayBag::SportTimer("p2", "us", 1);
 
     return std::accumulate(cbegin(customDeclarations), cend(customDeclarations), 0,
         [](auto &&sum, auto &&groupDeclarations) {
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     auto t = HolidayBag::SportTimer("Total", "us");
 
     std::cout << std::string(79, '-') << '\n';
-    std::cout << "AoC2020_05 v1 & v2\n";
+    std::cout << "AoC2020_06 v1 & v2\n";
     if (argc != 2) {
         std::cerr << "Not enough (" << argc << ") arguments\n";
         return -1;
