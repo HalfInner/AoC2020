@@ -64,24 +64,22 @@ auto parsePuzzle(std::fstream &&istream) {
     auto t = HolidayBag::SportTimer("Parsing", "us");
     std::unordered_map<std::string, std::unordered_map<std::string, int>> luggageGroup;
 
-    std::regex luggageRe("(\\w+ \\w+)( bags contain ){1}(.+)");
     std::regex bagsRe("\\d+ \\w+ \\w+ bags?[,. ]{1,2}");
     for (std::string s {}; std::getline(istream, s, '\n');) {
         if (!s.empty() && s.back() == '\r') {
             s.pop_back();
         }
-        for (std::sregex_iterator it(s.begin(), s.end(), luggageRe), it_end; it != it_end; ++it) {
-            auto laggageName = (*it)[1];
-            luggageGroup[laggageName] = {};
-            std::string bags = (*it)[3];
-            for (std::sregex_iterator jt(bags.begin(), bags.end(), bagsRe), jt_end; jt != jt_end;
-                 ++jt) {
-                std::string element = (*jt)[0];
-                auto numberpos = element.find(' ', 1);
-                int number = std::stoi(element.substr(0, numberpos));
-                std::string name = element.substr(numberpos + 1, element.find(" bag") - 2);
-                luggageGroup[laggageName][name] = number;
-            }
+        auto pos = s.find(" bags contain ");
+        auto laggageName = s.substr(0, pos);
+        luggageGroup[laggageName] = {};
+        std::string bags = s.substr(pos + 14);
+        for (std::sregex_iterator jt(bags.begin(), bags.end(), bagsRe), jt_end; jt != jt_end;
+             ++jt) {
+            std::string element = (*jt)[0];
+            auto numberpos = element.find(' ', 1);
+            int number = std::stoi(element.substr(0, numberpos));
+            std::string name = element.substr(numberpos + 1, element.find(" bag") - 2);
+            luggageGroup[laggageName][name] = number;
         }
     }
 
