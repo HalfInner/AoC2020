@@ -50,26 +50,27 @@ auto crack_v2(Container &&xmasData, int64_t ans_v1) {
     auto t = HolidayBag::SportTimer("p2", "us", 1);
 
     size_t considerNumbers = 2;
-    for (size_t considered = considerNumbers;; ++considered) {
-        int64_t curr_sum = 0;
-        std::deque<int64_t> vals;
-        for (size_t j = 0; j < considered; ++j) {
-            auto val = xmasData.at(j);
-            curr_sum += val;
-            vals.push_back(val);
-        }
+    int64_t curr_sum = 0;
+    std::deque<int64_t> vals;
+    for (size_t j = 0; j < considerNumbers; ++j) {
+        auto val = xmasData.at(j);
+        curr_sum += val;
+        vals.push_back(val);
+    }
 
-        for (size_t idx = considered; idx < xmasData.size(); ++idx) {
-            if (curr_sum == ans_v1) {
-                auto [min, max] = std::minmax_element(cbegin(vals), cend(vals));
-                return *min + *max;
-            }
+    for (size_t idx = considerNumbers; idx < xmasData.size();) {
+        if (curr_sum == ans_v1) {
+            auto [min, max] = std::minmax_element(cbegin(vals), cend(vals));
+            return *min + *max;
+        }
+        if (curr_sum > ans_v1) {
             auto firstVal = vals.front();
             curr_sum -= firstVal;
             vals.pop_front();
-
+        } else {
             curr_sum += xmasData.at(idx);
             vals.push_back(xmasData.at(idx));
+            ++idx;
         }
     }
 
