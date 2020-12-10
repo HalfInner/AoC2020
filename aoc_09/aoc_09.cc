@@ -17,17 +17,29 @@ auto crack_v1(Container &&xmasData) {
     auto t = HolidayBag::SportTimer("p1", "us", 1);
 
     constexpr size_t preamble = 25;
+
+    std::unordered_set<int64_t> vals;
+    for (size_t i = 0; i < preamble; ++i) {
+        vals.insert(xmasData.at(i));
+    }
+
     for (size_t idx = preamble; idx < xmasData.size(); ++idx) {
-        std::unordered_set<int64_t> sums;
-        for (size_t i = 0; i < preamble - 1; ++i) {
-            for (size_t j = i + 1; j < preamble; ++j) {
-                sums.insert(xmasData.at(idx - preamble + i) + xmasData.at(idx - preamble + j));
+        int64_t curr = xmasData.at(idx);
+
+        bool valid = false;
+        for (size_t j = idx - preamble; j < idx; ++j) {
+            int64_t seek = abs(curr - xmasData.at(j));
+            if (vals.count(seek) != 0 && seek != xmasData.at(j)) {
+                valid = true;
+                break;
             }
         }
-        int64_t curr = xmasData.at(idx);
-        if (sums.count(curr) == 0) {
+        if (!valid) {
             return curr;
         }
+
+        vals.erase(xmasData.at(idx - preamble));
+        vals.insert(curr);
     }
 
     return static_cast<int64_t>(-1);
